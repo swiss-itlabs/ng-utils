@@ -14,7 +14,6 @@
     "test:debug": "ng test --watch true --browsers Chrome",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "versionpatch": "npm version patch --prefix projects/ng-utils --no-git-tag-version && npm version patch --no-git-tag-version",
     "semantic-release": "semantic-release"
   },
   "dependencies": {
