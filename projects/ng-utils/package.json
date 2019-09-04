@@ -10,9 +10,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {
-    "semantic-release": "semantic-release"
-  },
   "peerDependencies": {
     "@angular/common": "^8.2.4",
     "@angular/core": "^8.2.4"
