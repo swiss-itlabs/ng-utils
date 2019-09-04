@@ -5,31 +5,3 @@ Project information you can find [here](../../README.md)
 ## API Documentation
 
 API Documentation will be auto generated in the future.
-
-### NameOf
-
-Helper to get property names of an typescript object.
-
-**Example :**
-
-```ts
-export class ProductModel {
-    public id: number;
-    public name: string;
-}
-
-@Component({
-    selector: 'app-product',
-    templateUrl: './product.component.html',
-    styleUrls: ['./product.component.css']
-})
-export class ProductComponent implements AfterViewInit {
-    @ViewChild(DropdownComponent, {static: false}) 
-    private dropdown: DropdownComponent;
-
-    public ngAfterViewInit() {
-        dropdown.textField = NameOf.property<ProductModel>('name');
-        dropdown.valueField = NameOf.property<ProductModel>('id');
-    }
-}
-```
