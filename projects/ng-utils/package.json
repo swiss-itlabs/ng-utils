@@ -1,0 +1,20 @@
+{
+  "name": "@itlabs/ng-utils",
+  "version": "0.0.0",
+  "description": "Angular utils is a collection of helpful functions, directives and components that can be used in angular projects.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/swiss-itlabs/ng-utils"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "semantic-release": "semantic-release"
+  },
+  "peerDependencies": {
+    "@angular/common": "^8.2.4",
+    "@angular/core": "^8.2.4"
+  }
+}
