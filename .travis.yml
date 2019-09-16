@@ -8,6 +8,8 @@ script:
 - npm run docgen
 before_deploy:
 - cd dist/ng-utils
+after_deploy:
+- cd ../..
 deploy:
   - provider: pages
     local_dir: dist/doc
