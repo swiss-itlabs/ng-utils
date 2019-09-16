@@ -10,7 +10,7 @@ before_deploy:
 - cd dist/ng-utils
 deploy:
   - provider: pages
-    local_dir: ../doc
+    local_dir: dist/doc
     skip_cleanup: true
     github_token: $GH_TOKEN
     on:
