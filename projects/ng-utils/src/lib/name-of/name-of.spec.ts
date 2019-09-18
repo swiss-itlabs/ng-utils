@@ -3,6 +3,7 @@ import { NameOf } from './name-of';
 describe('NameOf.property', () => {
 
   class MyDemoTestClass {
+    /** test */
     public myPublicProperty: number;
   }
 
