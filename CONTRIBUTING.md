@@ -1,6 +1,7 @@
-# Contributing to itlabs
+# Contributing to itlabs/ng-utils
 
-This guideline is based on angular's [contributing guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md). If you are already familiar with angular's [contributing guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md) you can stop reading here.
+This guidelines is a simplified and adapted version of angular's [contributing guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md).
+Please read it before contributing, even if you are familiar with those of angular.
 
 ## Found a Bug?
 
@@ -8,7 +9,7 @@ If you find a bug in the source code, you can help us by [submitting an issue](#
 
 ## Submitting an Issue
 
-Before you submit an issue, please search the issue tracker, maybe an issue for your problem already exists and the discussion might inform you of workarounds readily available.
+Before you submit an issue, please [search](https://github.com/swiss-itlabs/ng-utils/issues) the issue tracker, maybe an issue for your problem already exists and the discussion might inform you of workarounds readily available.
 
 Please provide a minimal reproduction of the bug. Having a minimal reproducible scenario gives us a wealth of important information without going back & forth to you with additional questions.
 
