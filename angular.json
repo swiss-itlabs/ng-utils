@@ -7,7 +7,12 @@
       "projectType": "library",
       "root": "projects/ng-utils",
       "sourceRoot": "projects/ng-utils/src",
-      "prefix": "itlabs",
+      "prefix": "itl",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -37,6 +42,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "ng-utils"
 }
