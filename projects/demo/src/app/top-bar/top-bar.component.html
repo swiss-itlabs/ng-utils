@@ -1,0 +1,10 @@
+<mat-toolbar color="primary">
+    <img class="logo" src="assets/logo.png" alt="logo" />
+
+    <div class="divider"></div>
+
+    <button mat-button [matMenuTriggerFor]="menu">Components</button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onMenuItemClick('demo-menu')">Menu</button>
+    </mat-menu>
+</mat-toolbar>
