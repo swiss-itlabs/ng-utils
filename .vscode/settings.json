@@ -1,5 +1,9 @@
 {
     "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.tslint": true
+    },
+    "html.format.wrapAttributes": "aligned-multiple",
     "git.inputValidationSubjectLength": 70,
     "cSpell.words": [
         "itlabs"
