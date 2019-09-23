@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { MenuItem } from '@itlabs/ng-utils';
 
 @Component({
   selector: 'itldemo-demo-menu',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DemoMenuComponent implements OnInit {
 
-  constructor() { }
+  public menuDataSource: Observable<MenuItem[]> = of([
+    { icon: 'work', label: 'Customers' },
+    { icon: 'people_alt', label: 'Users' },
+    { icon: 'today', label: 'Calendar' },
+    { label: 'Other things' }
+  ]);
 
-  ngOnInit() {
+  constructor() {
+
+  }
+
+  public ngOnInit(): void {
+
+  }
+
+
+  public onMenuItemClick(menuItem: MenuItem): void {
+    console.log(menuItem);
   }
 
 }

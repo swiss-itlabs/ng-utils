@@ -6,6 +6,24 @@ body {
 }
 body {
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
     background-color: mat-color($accent);
+}
+
+.itl-menu {
+    background-color: mat-color($accent, A700);
+    width: 250px;
+}
+.itl-menu-item {
+    padding: 10px 0;
+}
+.itl-menu-item:not(:last-child) {
+    border-bottom: 1px solid  mat-color($accent);
+}
+.itl-menu-item:hover {
+    background-color: mat-color($primary, A700);
+}
+.itl-menu-item-icon {
+    width: 40px;
 }

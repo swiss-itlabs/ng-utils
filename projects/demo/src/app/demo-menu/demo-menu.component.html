@@ -1,1 +1,5 @@
-<p>demo-menu works!</p>
+<itl-menu [dataSource]="menuDataSource" (menuItemClick)="onMenuItemClick($event)">
+    <ng-template itlMenuItemIcon let-icon>
+        <mat-icon>{{icon}}</mat-icon>
+    </ng-template>
+</itl-menu>

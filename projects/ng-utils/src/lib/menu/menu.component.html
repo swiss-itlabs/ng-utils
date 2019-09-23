@@ -1,0 +1,13 @@
+<div class="itl-menu-item" *ngFor="let menuItem of dataSource | async" (click)="onClickMenuItem(menuItem)">
+    <div class="itl-menu-item-icon">
+        <ng-container *ngTemplateOutlet="menuItemIconTemplate; context {$implicit: menuItem.icon}">
+        </ng-container>
+        <!-- if no item template, use icon as class -->
+        <span *ngIf="!menuItemIconTemplate">
+            <i [class]="menuItem.icon"></i>
+        </span>
+    </div>
+    <div>
+        {{menuItem.label}}
+    </div>
+</div>

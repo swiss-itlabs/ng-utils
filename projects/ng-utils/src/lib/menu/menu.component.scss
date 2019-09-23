@@ -1,0 +1,16 @@
+// class of the host element
+.itl-menu {
+    display: block;
+}
+// class of the menu item (menu row)
+.itl-menu-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+// class to style the icon of a menu item.
+.itl-menu-item-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
