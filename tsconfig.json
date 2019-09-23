@@ -19,11 +19,11 @@
       "dom"
     ],
     "paths": {
-      "ng-utils": [
-        "dist/ng-utils"
+      "@itlabs/ng-utils": [
+        "projects/ng-utils/src"
       ],
-      "ng-utils/*": [
-        "dist/ng-utils/*"
+      "@itlabs/ng-utils/*": [
+        "projects/ng-utils/src/*"
       ]
     }
   },
