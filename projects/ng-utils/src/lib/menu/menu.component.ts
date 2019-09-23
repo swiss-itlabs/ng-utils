@@ -11,6 +11,7 @@ import { MenuItemIconDirective } from './menu-item-icon.directive';
  * ### Styling
  *
  * Following is the list of structural style classes:
+ *
  * | Name               | Element                              |
  * |--------------------|--------------------------------------|
  * | itl-menu           | Host element                         |
