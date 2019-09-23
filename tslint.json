@@ -111,7 +111,8 @@
           ],
           "tags": {
             "existence": [
-              "inheritdoc"
+              "inheritdoc",
+              "hidden"
             ]
           }
         },
