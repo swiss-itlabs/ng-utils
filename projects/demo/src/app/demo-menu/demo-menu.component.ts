@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MenuItem } from '@itlabs/ng-utils';
 
 @Component({
@@ -13,7 +13,7 @@ export class DemoMenuComponent implements OnInit {
     { icon: 'work', label: 'Customers' },
     { icon: 'people_alt', label: 'Users' },
     { icon: 'today', label: 'Calendar' },
-    { label: 'Other things' }
+    { label: 'Other things', id: 'OT' }
   ]);
 
   constructor() {

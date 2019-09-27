@@ -10,4 +10,8 @@ export interface MenuItem {
      * Text to show on the menu item.
      */
     label: string;
+    /**
+     * Optional, menu item identification.
+     */
+    id?: string;
 }

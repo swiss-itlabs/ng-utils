@@ -1,5 +1,15 @@
-import { Component, Input, ContentChild, ViewEncapsulation, HostBinding, TemplateRef, Output, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs';
+import {
+  Component,
+  Input,
+  ContentChild,
+  ViewEncapsulation,
+  HostBinding,
+  TemplateRef,
+  Output,
+  EventEmitter
+} from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { MenuItem } from './menu.models';
 import { MenuItemIconDirective } from './menu-item-icon.directive';
@@ -105,6 +115,15 @@ export class MenuComponent {
    */
   public onClickMenuItem(menuItem: MenuItem): void {
     this.menuItemClick.emit(menuItem);
+  }
+
+  /**
+   * Get a the menu item id.
+   * @param menuItem Menu item to generate id for.
+   */
+  public getItemId(menuItem: MenuItem): Observable<string> {
+    const itemId = menuItem.id ? of(menuItem.id) : this.dataSource.pipe(map(items => items.indexOf(menuItem).toString()));
+    return itemId.pipe(map(id => `itl-menu-item-${id}`));
   }
 
 }
