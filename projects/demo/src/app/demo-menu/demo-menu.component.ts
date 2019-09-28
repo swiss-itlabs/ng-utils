@@ -13,7 +13,16 @@ export class DemoMenuComponent implements OnInit {
     { icon: 'work', label: 'Customers' },
     { icon: 'people_alt', label: 'Users' },
     { icon: 'today', label: 'Calendar' },
-    { label: 'Other things', id: 'OT' }
+    {
+      label: 'Other things', id: 'OT', subMenu: [
+        {
+          icon: 'list', label: 'Level 2', subMenu: [
+            { icon: 'tab', label: 'Level 3, Item 1' },
+            { icon: 'view_module', label: 'Level 3, Item 2' },
+          ]
+        },
+      ]
+    }
   ]);
 
   constructor() {

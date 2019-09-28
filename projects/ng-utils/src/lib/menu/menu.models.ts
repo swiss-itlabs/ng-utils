@@ -14,4 +14,8 @@ export interface MenuItem {
      * Optional, menu item identification.
      */
     id?: string;
+    /**
+     * Optional, sub menu items.
+     */
+    subMenu?: MenuItem[];
 }
