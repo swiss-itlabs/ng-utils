@@ -14,7 +14,7 @@
     "test:debug": "ng test --watch true --browsers Chrome",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "docgen": "typedoc --tsconfig ./projects/ng-utils/tsconfig.lib.json --out ./dist/doc --mode file --gitRevision master --readme ./README.md",
+    "docgen": "typedoc --tsconfig ./projects/ng-utils/tsconfig.lib.json --out ./dist/doc --mode file --gitRevision master --readme ./README.md --excludePrivate",
     "semantic-release": "semantic-release"
   },
   "dependencies": {
