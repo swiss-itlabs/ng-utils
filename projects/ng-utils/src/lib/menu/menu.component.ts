@@ -7,9 +7,10 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
+// Third lib
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+// ng-utils
 import { MenuItem } from './menu.models';
 import { MenuItemIconDirective } from './menu-item-icon.directive';
 

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+// ng-utils
 import { MenuComponent } from './menu.component';
 import { MenuItemIconDirective } from './menu-item-icon.directive';
 
