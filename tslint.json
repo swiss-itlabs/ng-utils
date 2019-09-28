@@ -118,6 +118,11 @@
         },
         "types": true
       }
-    ]
+    ],
+    "variable-name": {
+      "options": [
+        "allow-leading-underscore"
+      ]
+    }
   }
 }
