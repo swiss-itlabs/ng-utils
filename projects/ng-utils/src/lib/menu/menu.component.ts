@@ -31,7 +31,7 @@ import { NavigateBackIconDirective } from './navigate-back-icon.directive';
  * | itl-menu-item-label | `span` element containing the label of the menu item.               |
  *
  *
- * @example Simplest way with e.g Font Awesome.
+ * @example Simplest way with CSS icons e.g Font Awesome.
  *
  * ```ts
  * @Component({
@@ -97,7 +97,7 @@ export class MenuComponent {
   }
 
   /**
-   * Reference to the naviagte back icon template.
+   * Reference to the navigate back icon template.
    * @hidden
    */
   @ContentChild(NavigateBackIconDirective, { static: false })
@@ -117,14 +117,14 @@ export class MenuComponent {
   public currentMenuItems: MenuItem[];
 
   /**
-   * History of sub menu items opening.
+   * History of sub menu navigation.
    * @hidden
    */
   public navigationHistory: NavigationHistory[] = [];
 
   /**
-   * Gets the label of the current parent menu item.
-   * Returns null if no parent menu.
+   * Gets the label of the parent menu item, if a sub menu is open.
+   * Returns null if no parent.
    * @hidden
    */
   public get labelParentMenuItem(): string {
@@ -151,8 +151,8 @@ export class MenuComponent {
   }
 
   /**
-   * CSS class of the navigate back icon.
-   * You can also use the `itlNavigateBackIcon` template directive instead.
+   * CSS class for the navigate back icon.
+   * Use the `itlNavigateBackIcon` template directive, if don't use CSS icons.
    */
   @Input()
   public navigateBackIconClass: string;
@@ -166,7 +166,7 @@ export class MenuComponent {
   constructor() { }
 
   /**
-   * Event handler of the internal menu item click event.
+   * Event handler of the menu item click event.
    * Emits the `menuItemClick` event.
    * @param menuItem Clicked menu item.
    *
@@ -190,7 +190,7 @@ export class MenuComponent {
   }
 
   /**
-   * Get a the menu item id.
+   * Get the menu item id.
    * @param menuItem Menu item to generate id for.
    */
   public getItemId(menuItem: MenuItem): string {
