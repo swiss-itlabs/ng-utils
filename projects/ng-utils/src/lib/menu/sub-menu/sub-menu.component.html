@@ -1,0 +1,26 @@
+<ul class="itl-menu">
+    <!-- navigate back item -->
+    <li class="itl-menu-item itl-menu-item-navigate-back" *ngIf="labelParentMenuItem" (click)="onClickBack()">
+        <span class="itl-menu-item-icon">
+            <ng-container *ngTemplateOutlet="navigateBackIconTemplate">
+            </ng-container>
+            <span *ngIf="navigateBackIconClass && !navigateBackIconTemplate">
+                <i [class]="navigateBackIconClass"></i>
+            </span>
+        </span>
+        <span class="itl-menu-item-label">{{labelParentMenuItem}}</span>
+    </li>
+    <!-- menu items -->
+    <li class="itl-menu-item" *ngFor="let menuItem of dataSource" (click)="onClickMenuItem(menuItem)"
+        [id]="getItemId(menuItem)">
+        <span class="itl-menu-item-icon">
+            <ng-container *ngTemplateOutlet="menuItemIconTemplate; context {$implicit: menuItem.icon}">
+            </ng-container>
+            <!-- if no item template, use icon as class -->
+            <span *ngIf="!menuItemIconTemplate">
+                <i [class]="menuItem.icon"></i>
+            </span>
+        </span>
+        <span class="itl-menu-item-label">{{menuItem.label}}</span>
+    </li>
+</ul>

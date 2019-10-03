@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 import { MenuItem } from './menu.models';
 import { MenuItemIconDirective } from './menu-item-icon.directive';
 import { NavigationHistory } from './menu.internal.models';
-import { NavigateBackIconDirective } from './navigate-back-icon.directive';
+import { MenuNavigateBackIconDirective } from './menu-navigate-back-icon.directive';
 
 
 /**
@@ -23,12 +23,13 @@ import { NavigateBackIconDirective } from './navigate-back-icon.directive';
  *
  * Following is the list of structural style classes:
  *
- * | Name                | Element                                                             |
- * |---------------------|---------------------------------------------------------------------|
- * | itl-menu            | `ul` as menu element.                                               |
- * | itl-menu-item       | `li` as menu item, wrapper of icon and label.                       |
- * | itl-menu-item-icon  | `span` element containing the icon of the menu item.                |
- * | itl-menu-item-label | `span` element containing the label of the menu item.               |
+ * | Name                        | Element                                                             |
+ * |-----------------------------|---------------------------------------------------------------------|
+ * | itl-menu                    | `ul` as menu element.                                               |
+ * | itl-menu-item               | `li` as menu item, wrapper of icon and label.                       |
+ * | itl-menu-item-icon          | `span` element containing the icon of the menu item.                |
+ * | itl-menu-item-label         | `span` element containing the label of the menu item.               |
+ * | itl-menu-item-navigate-back | `li` as navigate back item, only visible if a sub menu is opened.   |
  *
  *
  * @example Simplest way with CSS icons e.g Font Awesome.
@@ -58,7 +59,7 @@ import { NavigateBackIconDirective } from './navigate-back-icon.directive';
  *
  * ```html
  * <itl-menu [dataSource]="menuDataSource" (menuItemClick)="onMenuItemClick($event)">
- *  <ng-template itlNavigateBackIcon>
+ *  <ng-template itlMenuNavigateBackIcon>
  *    <mat-icon>arrow_back</mat-icon>
  *  </ng-template>
  *  <ng-template itlMenuItemIcon let-icon>
@@ -100,8 +101,8 @@ export class MenuComponent {
    * Reference to the navigate back icon template.
    * @hidden
    */
-  @ContentChild(NavigateBackIconDirective, { static: false })
-  public navigateBackIcon: NavigateBackIconDirective;
+  @ContentChild(MenuNavigateBackIconDirective, { static: false })
+  public navigateBackIcon: MenuNavigateBackIconDirective;
 
   /**
    * Gets the template reference of `navigateBackIcon`.
@@ -152,7 +153,7 @@ export class MenuComponent {
 
   /**
    * CSS class for the navigate back icon.
-   * Use the `itlNavigateBackIcon` template directive, if don't use CSS icons.
+   * See [*itlMenuNavigateBackIcon*](menuNavigateBackIconDirective.html) for alternative way to provide a navigate back icon.
    */
   @Input()
   public navigateBackIconClass: string;
@@ -163,8 +164,6 @@ export class MenuComponent {
   @Output()
   public menuItemClick: EventEmitter<MenuItem> = new EventEmitter<MenuItem>();
 
-  constructor() { }
-
   /**
    * Event handler of the menu item click event.
    * Emits the `menuItemClick` event.
@@ -172,7 +171,7 @@ export class MenuComponent {
    *
    * @hidden
    */
-  public onClickMenuItem(menuItem: MenuItem): void {
+  public onMenuItemClick(menuItem: MenuItem): void {
     if (menuItem.subMenu && menuItem.subMenu.length > 0) {
       this.navigationHistory.push({ previousSubMenu: this.currentMenuItems, labelParentItem: menuItem.label });
       this.currentMenuItems = menuItem.subMenu;
@@ -184,18 +183,9 @@ export class MenuComponent {
    * Event handler of navigate back button.
    * @hidden
    */
-  public onClickBack(): void {
+  public onNavigateBackClick(): void {
     const prev = this.navigationHistory.splice(this.navigationHistory.length - 1, 1);
     this.currentMenuItems = prev[0].previousSubMenu;
-  }
-
-  /**
-   * Get the menu item id.
-   * @param menuItem Menu item to generate id for.
-   */
-  public getItemId(menuItem: MenuItem): string {
-    const itemId = menuItem.id ? menuItem.id : this.currentMenuItems.indexOf(menuItem).toString();
-    return `itl-menu-item-${itemId}`;
   }
 
 }

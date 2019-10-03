@@ -6,6 +6,8 @@ import { of } from 'rxjs';
 import { MenuComponent } from './menu.component';
 import { MenuItemIconDirective } from './menu-item-icon.directive';
 import { MenuItem } from './menu.models';
+import { SubMenuComponent } from './sub-menu/sub-menu.component';
+import { MenuNavigateBackIconDirective } from './menu-navigate-back-icon.directive';
 
 describe('MenuComponent', () => {
 
@@ -16,7 +18,7 @@ describe('MenuComponent', () => {
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
-        declarations: [MenuComponent]
+        declarations: [MenuComponent, SubMenuComponent]
       })
         .compileComponents();
     }));
@@ -45,43 +47,26 @@ describe('MenuComponent', () => {
       });
     }));
 
-    it('should create default icon element', async(() => {
-      component.dataSource = of<MenuItem[]>([{ label: 'Home', icon: 'fa-home' }]);
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        const menuIcon = nativeElement.querySelector('.itl-menu-item-icon');
-        expect(menuIcon).toBeTruthy('no menu icon');
-        expect(menuIcon.querySelector('i.fa-home')).toBeTruthy('no default icon element');
-      });
-    }));
-
-    it('should have menu item id', async(() => {
-      component.dataSource = of<MenuItem[]>([{ label: 'Home', id: 'home_menu' }]);
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        const menuItem = nativeElement.querySelector('#itl-menu-item-home_menu');
-        expect(menuItem).toBeTruthy('no menu item with id');
-      });
-    }));
-
-    it('should have a default menu item id', async(() => {
-      component.dataSource = of<MenuItem[]>([
-        { label: 'Home', id: 'home_menu' },
-        { label: 'Settings' }
-      ]);
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        const menuItem = nativeElement.querySelector('#itl-menu-item-1');
-        expect(menuItem).toBeTruthy('no menu item with id');
-        expect(menuItem.querySelector('.itl-menu-item-label').innerHTML).toBeTruthy('Settings');
-      });
-    }));
-
     it('should emit menu item on menu item click', (done) => {
       const menuItem = { label: 'Home', id: 'home_menu' };
       component.dataSource = of<MenuItem[]>([menuItem]);
       component.menuItemClick.subscribe(item => {
         expect(item).toBe(menuItem);
+        done();
+      });
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        const menuItemElement = nativeElement.querySelector('#itl-menu-item-home_menu') as HTMLElement;
+        menuItemElement.click();
+      });
+    });
+
+    it('should navigate to sub menu', (done) => {
+      const menuItem = { label: 'Home', id: 'home_menu', subMenu: [{ label: 'Settings', id: 'settings_menu' }] };
+      component.dataSource = of<MenuItem[]>([menuItem]);
+      component.menuItemClick.subscribe(item => {
+        expect(item).toBe(menuItem);
+        expect(component.currentMenuItems).toEqual(menuItem.subMenu);
         done();
       });
       fixture.detectChanges();
@@ -98,6 +83,9 @@ describe('MenuComponent', () => {
     @Component({
       template: `
       <itl-menu [dataSource]="menuDataSource">
+        <ng-template itlMenuNavigateBackIcon>
+            <h2>Back</h2>
+        </ng-template>
         <ng-template itlMenuItemIcon let-icon>
             <h1>{{icon}}</h1>
         </ng-template>
@@ -108,7 +96,7 @@ describe('MenuComponent', () => {
       /**
        * Fake data source.
        */
-      public menuDataSource = of<MenuItem[]>([{ label: 'Home', icon: 'fa-home' }]);
+      public menuDataSource = of<MenuItem[]>([{ label: 'Home', icon: 'fa-home', id: 'home', subMenu: [{ label: 'Settings' }] }]);
     }
 
     let component: SimpleMenu;
@@ -117,7 +105,7 @@ describe('MenuComponent', () => {
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
-        declarations: [MenuComponent, SimpleMenu, MenuItemIconDirective]
+        declarations: [MenuComponent, SubMenuComponent, SimpleMenu, MenuItemIconDirective, MenuNavigateBackIconDirective]
       })
         .compileComponents();
     }));
@@ -139,6 +127,17 @@ describe('MenuComponent', () => {
       expect(iconElement.querySelector('h1').innerHTML).toBeTruthy('fa-home');
     });
 
+    it('should contains custom navigate back icon', async(() => {
+      const homeMenuItem = nativeElement.querySelector('#itl-menu-item-home') as HTMLElement;
+      homeMenuItem.click();
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        const iconElement = nativeElement.querySelector('.itl-menu-item-navigate-back > .itl-menu-item-icon');
+        expect(iconElement).toBeTruthy();
+        expect(iconElement.querySelector('h2').innerHTML).toBeTruthy('Back');
+      });
+    }));
   });
 });
 
