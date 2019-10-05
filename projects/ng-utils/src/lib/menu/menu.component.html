@@ -1,4 +1,9 @@
-<itl-sub-menu [menuItemIconTemplate]="menuItemIconTemplate" [navigateBackIconTemplate]="navigateBackIconTemplate"
-              [dataSource]="currentMenuItems" [navigateBackIconClass]="navigateBackIconClass"
-              [labelParentMenuItem]="labelParentMenuItem" (menuItemClick)="onMenuItemClick($event)"
-              (navigateBackClick)="onNavigateBackClick()"></itl-sub-menu>
+<span class="itl-menu-container" [style.width]="subMenuWidth" [@.disabled]="animationDisabled || !isReadyForAnimation">
+    <itl-sub-menu *ngFor="let subMenu of openedSubMenus; let i = index" [dataSource]="subMenu.subMenu"
+                  [class.itl-menu-hidden]="!subMenu.isDisplayed" [attr.aria-expanded]="selectedIndex === i"
+                  [menuItemIconTemplate]="menuItemIconTemplate" [navigateBackIconTemplate]="navigateBackIconTemplate"
+                  [navigateBackIconClass]="navigateBackIconClass" [labelParentMenuItem]="subMenu.labelParentItem"
+                  (menuItemClick)="onMenuItemClick($event)" (navigateBackClick)="onNavigateBackClick()"
+                  [@hideShow]="getAnimationAction(i)" (@hideShow.done)="animationDone(i)" [@enterLeave] #subMenus>
+    </itl-sub-menu>
+</span>

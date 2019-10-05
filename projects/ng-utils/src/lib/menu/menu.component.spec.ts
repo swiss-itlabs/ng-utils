@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 // Third lib
 import { of } from 'rxjs';
 // ng-utils
@@ -8,6 +9,7 @@ import { MenuItemIconDirective } from './menu-item-icon.directive';
 import { MenuItem } from './menu.models';
 import { SubMenuComponent } from './sub-menu/sub-menu.component';
 import { MenuNavigateBackIconDirective } from './menu-navigate-back-icon.directive';
+
 
 describe('MenuComponent', () => {
 
@@ -18,7 +20,8 @@ describe('MenuComponent', () => {
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
-        declarations: [MenuComponent, SubMenuComponent]
+        declarations: [MenuComponent, SubMenuComponent],
+        imports: [NoopAnimationsModule]
       })
         .compileComponents();
     }));
@@ -66,7 +69,7 @@ describe('MenuComponent', () => {
       component.dataSource = of<MenuItem[]>([menuItem]);
       component.menuItemClick.subscribe(item => {
         expect(item).toBe(menuItem);
-        expect(component.currentMenuItems).toEqual(menuItem.subMenu);
+        expect(component.openedSubMenus[1].subMenu).toEqual(menuItem.subMenu);
         done();
       });
       fixture.detectChanges();
@@ -105,7 +108,8 @@ describe('MenuComponent', () => {
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
-        declarations: [MenuComponent, SubMenuComponent, SimpleMenu, MenuItemIconDirective, MenuNavigateBackIconDirective]
+        declarations: [MenuComponent, SubMenuComponent, SimpleMenu, MenuItemIconDirective, MenuNavigateBackIconDirective],
+        imports: [NoopAnimationsModule]
       })
         .compileComponents();
     }));

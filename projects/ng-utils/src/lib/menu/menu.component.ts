@@ -5,14 +5,18 @@ import {
   ViewEncapsulation,
   TemplateRef,
   Output,
-  EventEmitter
+  EventEmitter,
+  AfterViewInit,
+  ElementRef,
+  ViewChildren,
+  QueryList
 } from '@angular/core';
 // Third lib
 import { Observable } from 'rxjs';
 // ng-utils
 import { MenuItem } from './menu.models';
 import { MenuItemIconDirective } from './menu-item-icon.directive';
-import { NavigationHistory } from './menu.internal.models';
+import { SubMenu, itlMenuAnimationTriggers } from './menu.internal.models';
 import { MenuNavigateBackIconDirective } from './menu-navigate-back-icon.directive';
 
 
@@ -73,9 +77,13 @@ import { MenuNavigateBackIconDirective } from './menu-navigate-back-icon.directi
   selector: 'itl-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: [
+    itlMenuAnimationTriggers.hideShow,
+    itlMenuAnimationTriggers.enterLeaveTrigger
+  ]
 })
-export class MenuComponent {
+export class MenuComponent implements AfterViewInit {
 
   /**
    * Value of `dataSource` getter / setter.
@@ -113,27 +121,38 @@ export class MenuComponent {
   }
 
   /**
-   * Currently visible menu items.
+   * Reference to the sub menus.
+   * @hidden
    */
-  public currentMenuItems: MenuItem[];
+  @ViewChildren('subMenus', { read: ElementRef })
+  public subMenus: QueryList<ElementRef<HTMLElement>>;
 
   /**
    * History of sub menu navigation.
    * @hidden
    */
-  public navigationHistory: NavigationHistory[] = [];
+  public openedSubMenus: SubMenu[] = [];
 
   /**
-   * Gets the label of the parent menu item, if a sub menu is open.
-   * Returns null if no parent.
+   * Index of current sub menu. @see s `openedSubMenus`
+   *
    * @hidden
    */
-  public get labelParentMenuItem(): string {
-    if (this.navigationHistory.length > 0) {
-      return this.navigationHistory[this.navigationHistory.length - 1].labelParentItem;
-    }
-    return null;
-  }
+  public selectedIndex = 0;
+
+  /**
+   * Prevent enter animation of the root menu.
+   * Is set to `true` after view init.
+   * @hidden
+   */
+  public isReadyForAnimation = false;
+
+  /**
+   * Width of sub menu.
+   * Used to bind the with to the `itl-menu-container`.
+   * @hidden
+   */
+  public subMenuWidth = 'auto';
 
   /**
    * Menu's source of data, a stream that emits a data array each time the array changes.
@@ -141,10 +160,9 @@ export class MenuComponent {
   @Input()
   public set dataSource(ds: Observable<MenuItem[]>) {
     this._dataSource = ds;
+    this.openedSubMenus = [];
     if (ds) {
-      ds.subscribe(items => this.currentMenuItems = items);
-    } else {
-      this.currentMenuItems = [];
+      ds.subscribe(items => this.openedSubMenus.push({ subMenu: items, labelParentItem: null, isDisplayed: true }));
     }
   }
   public get dataSource(): Observable<MenuItem[]> {
@@ -165,6 +183,23 @@ export class MenuComponent {
   public menuItemClick: EventEmitter<MenuItem> = new EventEmitter<MenuItem>();
 
   /**
+   * Set to `true` if sliding animation should be disabled.
+   */
+  @Input()
+  public animationDisabled = false;
+
+  /**
+   * Bind sub menu with to `itl-menu-container`.
+   * @hidden
+   */
+  public ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.subMenuWidth = this.subMenus.first.nativeElement.clientWidth + 'px';
+      this.isReadyForAnimation = true;
+    });
+  }
+
+  /**
    * Event handler of the menu item click event.
    * Emits the `menuItemClick` event.
    * @param menuItem Clicked menu item.
@@ -173,8 +208,8 @@ export class MenuComponent {
    */
   public onMenuItemClick(menuItem: MenuItem): void {
     if (menuItem.subMenu && menuItem.subMenu.length > 0) {
-      this.navigationHistory.push({ previousSubMenu: this.currentMenuItems, labelParentItem: menuItem.label });
-      this.currentMenuItems = menuItem.subMenu;
+      this.openedSubMenus.push({ subMenu: menuItem.subMenu, labelParentItem: menuItem.label, isDisplayed: true });
+      this.selectedIndex++;
     }
     this.menuItemClick.emit(menuItem);
   }
@@ -184,8 +219,40 @@ export class MenuComponent {
    * @hidden
    */
   public onNavigateBackClick(): void {
-    const prev = this.navigationHistory.splice(this.navigationHistory.length - 1, 1);
-    this.currentMenuItems = prev[0].previousSubMenu;
+    this.openedSubMenus.splice(this.openedSubMenus.length - 1, 1);
+    this.selectedIndex--;
+    this.openedSubMenus[this.selectedIndex].isDisplayed = true;
+  }
+
+  /**
+   * Call back when sub menu animation is done.
+   * Used to hide parent sub menu. So the new sub menu can use the position of the previous one.
+   * @param index Index of animated sub menu.
+   *
+   * @hidden
+   */
+  public animationDone(index: number): void {
+    if (this.selectedIndex !== 0 && this.selectedIndex !== index) {
+      const subMenu = this.openedSubMenus[index];
+      if (subMenu) {
+        subMenu.isDisplayed = false;
+      }
+    }
+  }
+
+  /**
+   * Get animation action for sub menu.
+   * Returns 'hide' if is opening a new sub menu or 'show' if is navigating back to parent menu.
+   * @param index Index of opened sub menu.
+   *
+   * @hidden
+   */
+  public getAnimationAction(index: number): string {
+    const position = index - this.selectedIndex;
+    if (position < 0) {
+      return 'hide';
+    }
+    return 'show';
   }
 
 }
