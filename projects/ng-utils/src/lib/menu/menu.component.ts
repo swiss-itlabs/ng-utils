@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 // Third lib
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 // ng-utils
 import { MenuItem } from './menu.models';
 import { MenuItemIconDirective } from './menu-item-icon.directive';
@@ -193,10 +194,17 @@ export class MenuComponent implements AfterViewInit {
    * @hidden
    */
   public ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.subMenuWidth = this.subMenus.first.nativeElement.clientWidth + 'px';
-      this.isReadyForAnimation = true;
-    });
+
+    // if view is initialized and still no sub menus, need to register to the first change of subMenus to init animation
+    if (this.openedSubMenus.length === 0) {
+      this.subMenus.changes
+        .pipe(take(1))
+        .subscribe(() => {
+          this.initAnimation();
+        });
+    } else {
+      this.initAnimation();
+    }
   }
 
   /**
@@ -253,6 +261,16 @@ export class MenuComponent implements AfterViewInit {
       return 'hide';
     }
     return 'show';
+  }
+
+  /**
+   * Bind sub menu with to `itl-menu-container` and allow animation.
+   */
+  private initAnimation(): void {
+    setTimeout(() => {
+      this.subMenuWidth = this.subMenus.first.nativeElement.clientWidth + 'px';
+      this.isReadyForAnimation = true;
+    });
   }
 
 }
