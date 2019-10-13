@@ -79,6 +79,20 @@ describe('MenuComponent', () => {
       });
     });
 
+    it('should navigate to parent', () => {
+      const menuItems = [{ label: 'Home', id: 'home_menu', subMenu: [{ label: 'Settings', id: 'settings_menu' }] }];
+      component.dataSource = of<MenuItem[]>(menuItems);
+      fixture.detectChanges();
+      // open sub menu
+      component.onMenuItemClick(menuItems[0]);
+      expect(component.openedSubMenus.length).toBe(2);
+      expect(component.openedSubMenus[1].subMenu).toBe(menuItems[0].subMenu);
+
+      component.onNavigateBackClick();
+      expect(component.openedSubMenus.length).toBe(1);
+      expect(component.openedSubMenus[0].subMenu).toBe(menuItems);
+    });
+
   });
 
   describe('custom icon', () => {

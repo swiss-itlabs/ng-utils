@@ -25,7 +25,7 @@ export interface SubMenu {
  * Slide animation definition.
  * @hidden
  */
-const MENU_SLIDE_ANIMATION = '200ms cubic-bezier(0,.99,.96,.76)';
+const MENU_SLIDE_ANIMATION = '200ms cubic-bezier(0, 0.98, 0.96, 0.76)';
 
 /**
  * Animation Triggers for the menu.
